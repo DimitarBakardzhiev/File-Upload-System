@@ -1,6 +1,8 @@
+var User = require('mongoose').model('User');
+var LocalStrategy = require('passport-local').Strategy;
+var encryption = require('../utilities/encryption');
+
 module.exports = function (passport) {
-    var User = require('mongoose').model('User');
-    var LocalStrategy = require('passport-local').Strategy;
 
     passport.serializeUser(function(user, done) {
         done(null, user._id);
@@ -23,7 +25,10 @@ module.exports = function (passport) {
                 User.findOne({ username: username }, function(err, user) {
                     if (err) { return done(err); }
                     if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
-                    if (user.password != password) { return done(null, false, { message: 'Invalid password' }); }
+                    if (user.passwordHash != encryption.generateHashedPassword(user.salt, password)) {
+                        return done(null, false, { message: 'Invalid password' });
+                    }
+
                     return done(null, user);
                 })
             });

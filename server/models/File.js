@@ -4,7 +4,7 @@ module.exports = function (mongoose) {
         dateOfUploading: Date,
         fileName: String,
         isPrivate: Boolean,
-        uploaderUsername: String
+        uploaderId: String
     });
 
     var File = mongoose.model('File', fileSchema);
