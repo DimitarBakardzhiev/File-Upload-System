@@ -6,6 +6,7 @@ var app = express();
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/server/views');
 app.use(express.static(__dirname + '/public'));
+require('./server/config/mongoose')();
 
 app.get('*', function (req, res) {
    res.render('index');
