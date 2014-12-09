@@ -9,4 +9,5 @@ module.exports = function () {
     });
 
     require('../models/User')(mongoose);
+    require('../models/File')(mongoose);
 }
