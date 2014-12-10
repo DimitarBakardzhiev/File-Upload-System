@@ -38,7 +38,18 @@ function remove(user) {
     User.findByIdAndRemove(user._id);
 }
 
+function all() {
+    User.find({}, function (err, users) {
+        if (err) {
+            console.log(err);
+        }
+
+        return users;
+    })
+}
+
 module.exports = {
+    all: all,
     create: create,
     find: find,
     update: update,

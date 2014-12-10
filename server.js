@@ -1,17 +1,17 @@
 var express = require('express');
 var passport = require('passport');
+var rootDir = __dirname;
 
 var PORT = 3001;
 var app = express();
 
-app.set('view engine', 'jade');
-app.set('views', __dirname + '/server/views');
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.static(__dirname + '/public'));
 
+require('./server/config/express')(app, rootDir, express, passport);
 require('./server/config/mongoose')();
 require('./server/config/passport')(passport);
+
+var controllers = require('./server/Controllers');
+app.post('/api/register', controllers.usersController.register)
 
 app.get('*', function (req, res) {
    res.render('index');
