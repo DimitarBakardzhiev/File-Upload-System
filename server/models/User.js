@@ -2,7 +2,7 @@ var encryption = require('../utilities/encryption');
 
 module.exports = function (mongoose) {
     var userSchema = mongoose.Schema({
-        username: String,
+        username: { type: String, min: 6, max: 20 },
         passwordHash: String,
         salt: String,
         points: Number
