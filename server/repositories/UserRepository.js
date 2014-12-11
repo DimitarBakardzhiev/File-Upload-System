@@ -3,6 +3,7 @@ var encryption = require('../utilities/encryption');
 var q = require('q');
 
 function create(username, password) {
+    var deferred = q.defer();
     var salt = encryption.generateSalt();
     var passwordHash = encryption.generateHashedPassword(salt, password);
     var user = new User({
@@ -12,31 +13,52 @@ function create(username, password) {
         points: 0
     }).save(function (err, user) {
            if (err) {
-               console.log(err);
+               deferred.reject(new Error(err.message));
            }
 
-            console.log(user);
+            deferred.resolve(user);
         });
+
+    return deferred.promise;
 }
 
 function find(id) {
+    var deferred = q.defer();
     User.findById(id, function (err, user) {
        if (err) {
-           console.log(err);
+           deferred.reject(new Error(err.message));
        }
 
-        return user;
+        deferred.resolve(user);
     });
+
+    return deferred.promise;
 }
 
 function update(user) {
+    var deferred = q.defer();
     User.findOneAndUpdate(user._id, user, function (err, updatedUser) {
-        console.log(updatedUser);
+        if (err) {
+            deferred.reject(new Error(err.message));
+        }
+
+        deferred.resolve(updatedUser);
     });
+
+    return deferred.promise;
 }
 
 function remove(user) {
-    User.findByIdAndRemove(user._id);
+    var deferred = q.defer();
+    User.findByIdAndRemove(user._id, function (err, removedUser) {
+        if (err) {
+            deferred.reject(new Error(err.message));
+        }
+
+        deferred.resolve(removedUser);
+    });
+
+    return deferred.promise;
 }
 
 function all() {
