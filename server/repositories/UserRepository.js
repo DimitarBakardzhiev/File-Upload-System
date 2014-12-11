@@ -1,5 +1,6 @@
 var User = require('mongoose').model('User');
 var encryption = require('../utilities/encryption');
+var q = require('q');
 
 function create(username, password) {
     var salt = encryption.generateSalt();
@@ -39,13 +40,17 @@ function remove(user) {
 }
 
 function all() {
+    var deferred = q.defer();
     User.find({}, function (err, users) {
         if (err) {
-            console.log(err);
+            console.log(err.message);
+            deferred.reject(new Error(err.message));
+        } else {
+            deferred.resolve(users);
         }
+    });
 
-        return users;
-    })
+    return deferred.promise;
 }
 
 module.exports = {
