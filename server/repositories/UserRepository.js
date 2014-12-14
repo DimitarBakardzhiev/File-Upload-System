@@ -38,13 +38,6 @@ function find(id) {
 
 function update(user) {
     var deferred = q.defer();
-    //User.findOneAndUpdate({ _id: user._id }, user, { upsert: true }, function (err, updatedUser) {
-    //    if (err) {
-    //        deferred.reject(new Error(err.message));
-    //    }
-//
-    //    deferred.resolve(updatedUser);
-    //});
     User.update({ _id: user._id}, user, { upsert: true }, function (err, updated) {
         if (err) {
             deferred.reject(new Error(err.message));
@@ -58,7 +51,7 @@ function update(user) {
 
 function remove(user) {
     var deferred = q.defer();
-    User.findByIdAndRemove({ _id: user._id }, function (err, removedUser) {
+    User.remove({ _id: user._id }, function (err, removedUser) {
         if (err) {
             deferred.reject(new Error(err.message));
         }

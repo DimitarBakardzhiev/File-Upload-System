@@ -25,9 +25,3 @@ app.get('*', function (req, res) {
 
 app.listen(PORT);
 console.log('Server running on port ' + PORT);
-
-// route middleware to ensure that the users is authenticated
-function ensureAuthenticated(req, res, next) {
-   if (req.isAuthenticated()) { return next(); }
-   res.redirect('/login');
-}
