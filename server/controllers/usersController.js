@@ -44,8 +44,15 @@ function login(req, res) {
 }
 
 function logout(req ,res) {
-    req.user.token = "";
-    _httpResponse(res, 200, 'Logged out!');
+    var token = req.header('Authorization').split(' ')[1];
+    data.users.findByToken(token).then(function (user) {
+        user.token = '';
+        data.users.update(user);
+
+        _httpResponse(res, 200, 'Logged out!');
+    }, function (err) {
+        _httpResponse(res, 400, err.message);
+    });
 }
 
 function _httpResponse(response, statusCode, message) {
@@ -56,5 +63,5 @@ function _httpResponse(response, statusCode, message) {
 module.exports = {
     register: register,
     login: login,
-    logout: logout
+    logout: logout,
 }

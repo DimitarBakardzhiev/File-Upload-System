@@ -83,10 +83,24 @@ function all() {
     return deferred.promise;
 }
 
+function findByToken(token) {
+    var deferred = q.defer();
+    User.findOne({ token: token }, function (err, user) {
+        if (err) {
+            deferred.reject(new Error(err.message));
+        } else {
+            deferred.resolve(user);
+        }
+    });
+
+    return deferred.promise;
+}
+
 module.exports = {
     all: all,
     create: create,
     find: find,
     update: update,
-    remove: remove
+    remove: remove,
+    findByToken: findByToken
 }
