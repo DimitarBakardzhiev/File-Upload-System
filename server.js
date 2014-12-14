@@ -14,7 +14,11 @@ var controllers = require('./server/Controllers');
 app.post('/api/users/register', controllers.usersController.register);
 app.post('/api/users/login', controllers.usersController.login);
 app.get('/api/users/logout', controllers.usersController.logout);
-
+app.get('/api/users/isAuthenticated',
+    passport.authenticate('bearer', { session: false }),
+    function (req, res) {
+       res.send(req.user);
+    });
 app.get('*', function (req, res) {
    res.render('index');
 });

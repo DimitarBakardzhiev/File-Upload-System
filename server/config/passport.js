@@ -1,29 +1,15 @@
 var User = require('mongoose').model('User');
-var LocalStrategy = require('passport-local').Strategy;
+var BearerStrategy = require('passport-http-bearer').Strategy;
 var encryption = require('../utilities/encryption');
 
 module.exports = function (passport) {
-
-    passport.serializeUser(function(user, done) {
-        done(null, user._id);
-    });
-
-    passport.deserializeUser(function(id, done) {
-        User.findOne({ _id: id }, function (err, user) {
-            done(err, user);
-        });
-    });
-
-    passport.use(new LocalStrategy(
-        function(username, password, done) {
+    passport.use(new BearerStrategy({
+        },
+        function(token, done) {
             process.nextTick(function () {
-                User.findOne({ username: username }, function(err, user) {
+                User.findOne({ token: token }, function(err, user) {
                     if (err) { return done(err); }
                     if (!user) { return done(null, false); }
-                    if (user.passwordHash != encryption.generateHashedPassword(user.salt, password)) {
-                        return done(null, false);
-                    }
-
                     return done(null, user);
                 })
             });

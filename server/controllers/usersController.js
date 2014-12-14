@@ -2,6 +2,8 @@ var data = require('../Data');
 var q = require('q');
 var _ = require('underscore');
 var passport = require('passport');
+var uuid = require('node-uuid');
+var encryption = require('../utilities/encryption');
 
 function register(req, res) {
     var newUser = req.body;
@@ -21,20 +23,29 @@ function register(req, res) {
     });
 }
 
-function login(req, res, next) {
-    passport.authenticate('local', function(err, user, info) {
-        if (err) { return next(err); }
-        if (!user) { return res.send('user not found'); }
-        req.logIn(user, function(err) {
-            if (err) { return next(err); }
-            return res.send('logged in successfully as ' + user.username);
-        });
-    })(req, res, next);
+function login(req, res) {
+    data.users.all().then(function (users) {
+        var user = _.findWhere(users, { username: req.body.username });
+        if (user === undefined) {
+            _httpResponse(res, 404, 'User not found!');
+        }
+
+        if (user.passwordHash != encryption.generateHashedPassword(user.salt, req.body.password)) {
+            _httpResponse(res, 400, 'Wrong password!');
+        }
+
+        user.token = uuid.v4();
+        data.users.update(user);
+
+        _httpResponse(res, 200, user.token);
+    }, function (err) {
+        _httpResponse(res, 400, err.message);
+    });
 }
 
 function logout(req ,res) {
-    req.logout();
-    res.send('Logged out!');
+    req.user.token = "";
+    _httpResponse(res, 200, 'Logged out!');
 }
 
 function _httpResponse(response, statusCode, message) {

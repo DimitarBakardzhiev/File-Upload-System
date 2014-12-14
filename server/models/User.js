@@ -10,7 +10,8 @@ module.exports = function (mongoose) {
         username: { type: String, validate: length, required: true, unique: true },
         passwordHash: String,
         salt: String,
-        points: Number
+        points: Number,
+        token: String
     });
 
     var User = mongoose.model('User', userSchema);

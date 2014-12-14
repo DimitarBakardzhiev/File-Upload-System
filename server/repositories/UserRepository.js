@@ -10,7 +10,8 @@ function create(username, password) {
         username: username,
         salt: salt,
         passwordHash: passwordHash,
-        points: 0
+        points: 0,
+        token: ''
     }).save(function (err, user) {
            if (err) {
                deferred.reject(new Error(err.message));
@@ -37,12 +38,19 @@ function find(id) {
 
 function update(user) {
     var deferred = q.defer();
-    User.findOneAndUpdate(user._id, user, function (err, updatedUser) {
+    //User.findOneAndUpdate({ _id: user._id }, user, { upsert: true }, function (err, updatedUser) {
+    //    if (err) {
+    //        deferred.reject(new Error(err.message));
+    //    }
+//
+    //    deferred.resolve(updatedUser);
+    //});
+    User.update({ _id: user._id}, user, { upsert: true }, function (err, updated) {
         if (err) {
             deferred.reject(new Error(err.message));
         }
 
-        deferred.resolve(updatedUser);
+        deferred.resolve(updated);
     });
 
     return deferred.promise;
@@ -50,7 +58,7 @@ function update(user) {
 
 function remove(user) {
     var deferred = q.defer();
-    User.findByIdAndRemove(user._id, function (err, removedUser) {
+    User.findByIdAndRemove({ _id: user._id }, function (err, removedUser) {
         if (err) {
             deferred.reject(new Error(err.message));
         }
