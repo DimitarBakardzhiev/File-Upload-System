@@ -1,4 +1,4 @@
-var data = require('../Data');
+var data = require('../data');
 var q = require('q');
 var _ = require('underscore');
 var passport = require('passport');

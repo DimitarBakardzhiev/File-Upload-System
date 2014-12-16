@@ -8,7 +8,7 @@ module.exports = function () {
         console.log('Database up and running!');
     });
 
-    require('../models/User')(mongoose);
-    require('../models/File')(mongoose);
+    require('../models/user')(mongoose);
+    require('../models/file')(mongoose);
     require('../utilities/seed')();
 }

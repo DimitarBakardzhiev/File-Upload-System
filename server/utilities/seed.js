@@ -1,4 +1,4 @@
-var data = require('../Data');
+var data = require('../data');
 
 module.exports = function () {
     if (data.users.all().then(function (users) {
