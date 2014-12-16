@@ -21,6 +21,16 @@ app.get('/api/users/isAuthenticated',
     function (req, res) {
        res.send(req.user);
     });
+app.get('/api/files/crypto', function (req, res) {
+    var crypto = require('crypto');
+    var toBeEncrypted = 'pesho';
+    var myHash = function (msg) {
+        return crypto.createHash('sha256').update(msg).digest('hex');
+    };
+
+    res.send(myHash(toBeEncrypted));
+});
+
 app.get('*', function (req, res) {
    res.render('index');
 });

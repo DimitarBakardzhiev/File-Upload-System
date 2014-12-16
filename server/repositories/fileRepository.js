@@ -4,7 +4,7 @@ var q = require('q');
 
 function create(fileName, isPrivate) {
     var deferred = q.defer();
-    
+
     // TODO: encrypt file name, save to db
 
     return deferred.promise;
