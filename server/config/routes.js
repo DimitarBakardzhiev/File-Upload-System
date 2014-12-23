@@ -11,14 +11,6 @@ module.exports = function (app, passport) {
         function (req, res) {
             res.send(req.user);
         });
-    app.get('/api/files/crypto', function (req, res) {
-        var encryption = require('../utilities/encryption');
-        res.send(encryption.encrypt('pesho'));
-    });
-    app.get('/api/files/decrypt', function (req ,res) {
-        var encryption = require('../utilities/encryption');
-        res.send(encryption.decrypt('fb2591d030')); // pesho
-    });
 
     app.get('*', function (req, res) {
         res.render('index');
