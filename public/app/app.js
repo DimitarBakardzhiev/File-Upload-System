@@ -9,7 +9,8 @@ app.config(function ($routeProvider, $locationProvider) {
         templateUrl: "/app/partials/testTemplate.html"
     }).
         when('/login', {
-        templateUrl: '/app/partials/login.html'
+            templateUrl: '/app/partials/login.html',
+            controller: 'userController'
     })/*.otherwise({
         redirectTo: '/'
     });*/
