@@ -1,7 +1,7 @@
 <form class="form-horizontal">
-    <div class="alert alert-dismissable alert-danger" ng-if="error">
+    <div class="alert alert-dismissable alert-danger" ng-if="error.message" ng-controller="userController">
         <button type="button" class="close" data-dismiss="alert">×</button>
-        <strong>Oh snap!</strong> <a href="#" class="alert-link">Change a few things up</a> and try submitting again.
+        {{error.message}}
     </div>
     <fieldset>
         <legend class="text-center">Login</legend>

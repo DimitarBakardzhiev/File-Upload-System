@@ -57,7 +57,8 @@ function logout(req ,res) {
 
 function _httpResponse(response, statusCode, message) {
     response.statusCode = statusCode;
-    response.send(message);
+    var resp = { message: message };
+    response.send(JSON.stringify(resp));
 }
 
 module.exports = {
