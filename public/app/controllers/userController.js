@@ -1,5 +1,8 @@
 app.controller('userController', function ($scope) {
-    $scope.test = function () {
-        console.log('1234');
+    $scope.user = {};
+    $scope.error;
+    $scope.login = function (user) {
+        $scope.error = "pesho";
+        console.log(user.username + ' ' + user.password);
     }
 });
