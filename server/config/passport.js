@@ -1,6 +1,5 @@
 var User = require('mongoose').model('User');
 var LocalStrategy = require('passport-local').Strategy;
-var flash = require('connect-flash');
 var encryption = require('../utilities/encryption');
 
 module.exports = function (passport) {
@@ -9,9 +8,9 @@ module.exports = function (passport) {
             process.nextTick(function () {
                 User.findOne({ username: username }, function(err, user) {
                     if (err) { return done(err); }
-                    if (!user) { return done(null, false, { error: 'Username ' + username + ' not found!' }); }
+                    if (!user) { return done(null, false); }
                     var passwordHash = encryption.generateHashedPassword(user.salt, password);
-                    if (user.passwordHash !== passwordHash) { return done(null, false, { error: 'Invalid password!' }); }
+                    if (user.passwordHash !== passwordHash) { return done(null, false); }
                     return done(null, user);
                 })
             });
