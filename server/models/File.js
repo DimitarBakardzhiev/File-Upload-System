@@ -1,4 +1,6 @@
-module.exports = function (mongoose) {
+var mongoose = require('mongoose');
+
+module.exports = function () {
     var fileSchema = mongoose.Schema({
         url: String,
         dateOfUploading: Date,

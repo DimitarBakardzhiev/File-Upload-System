@@ -1,68 +1,36 @@
-var data = require('../data');
-var q = require('q');
-var _ = require('underscore');
-var passport = require('passport');
-var uuid = require('node-uuid');
 var encryption = require('../utilities/encryption');
-
-function register(req, res) {
-    var newUser = req.body;
-    data.users.create(newUser.username, newUser.password).then(function (user) {
-        req.login(newUser, function(err) {
-            if (err) {
-                console.log(err.message);
-
-                // serialization problems
-                _httpResponse(res, 400, err.message);
-            }
-        });
-
-        _httpResponse(res, 201, 'Registration successful!');
-    }, function (err) {
-        _httpResponse(res, 400, err.message);
-    });
-}
-
-function login(req, res) {
-    data.users.all().then(function (users) {
-        var user = _.findWhere(users, { username: req.body.username });
-        if (user === undefined) {
-            _httpResponse(res, 404, 'User not found!');
-        }
-
-        if (user.passwordHash != encryption.generateHashedPassword(user.salt, req.body.password)) {
-            _httpResponse(res, 400, 'Wrong password!');
-        }
-
-        user.token = uuid.v4();
-        data.users.update(user);
-
-        _httpResponse(res, 200, user.token);
-    }, function (err) {
-        _httpResponse(res, 400, err.message);
-    });
-}
-
-function logout(req ,res) {
-    var token = req.header('Authorization').split(' ')[1];
-    data.users.findByToken(token).then(function (user) {
-        user.token = '';
-        data.users.update(user);
-
-        _httpResponse(res, 200, 'Logged out!');
-    }, function (err) {
-        _httpResponse(res, 400, err.message);
-    });
-}
-
-function _httpResponse(response, statusCode, message) {
-    response.statusCode = statusCode;
-    var resp = { message: message };
-    response.send(JSON.stringify(resp));
-}
+var User = require('mongoose').model('User');
 
 module.exports = {
-    register: register,
-    login: login,
-    logout: logout,
+    register: function (req, res) {
+        if (req.body.username.length > 20 || req.body.username.length < 6) {
+            res.statusCode = 400;
+            return res.json({
+                message: 'The username must be between 6 and 20 characters!'
+            });
+        } else {
+            var salt = encryption.generateSalt();
+            var hashedPassword = encryption.generateHashedPassword(salt, req.body.password);
+            new User({
+                username: req.body.username,
+                salt: salt,
+                passwordHash: hashedPassword
+            }).save(function (err, user) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(user);
+                        res.statusCode = 201;
+                        res.end();
+                    }
+                });
+        }
+    },
+    login: function (req, res) {
+        res.redirect('/');
+    },
+    logout: function (req, res) {
+        req.logout();
+        res.redirect('/');
+    }
 }

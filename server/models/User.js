@@ -1,4 +1,7 @@
-module.exports = function (mongoose) {
+var encryption = require('../utilities/encryption');
+var mongoose = require('mongoose');
+
+module.exports = function () {
     var MIN = 6;
     var MAX = 20;
 
@@ -10,8 +13,7 @@ module.exports = function (mongoose) {
         username: { type: String, validate: length, required: true, unique: true },
         passwordHash: String,
         salt: String,
-        points: Number,
-        token: String
+        points: Number
     });
 
     var User = mongoose.model('User', userSchema);
