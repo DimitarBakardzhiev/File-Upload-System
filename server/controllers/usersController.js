@@ -18,6 +18,13 @@ module.exports = {
             });
         }
 
+        if (req.body.password !== req.body.confirmPassword) {
+            res.statusCode = 400;
+            return res.json({
+                message: "The given password and confirmed password don't match!"
+            });
+        }
+
         User.findOne({ username: req.body.username }, function (err, user) {
             if (err) {
                 console.log(err);
@@ -40,7 +47,6 @@ module.exports = {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(user);
                     res.statusCode = 201;
                     res.end();
                 }
@@ -61,7 +67,7 @@ module.exports = {
 
             req.logIn(user, function(err) {
                 if (err) { return next(err); }
-                return res.json({ message: 'Logged in!' });
+                return res.end();
             });
         })(req, res, next);
     },

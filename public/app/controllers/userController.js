@@ -1,15 +1,23 @@
-app.controller('userController', function ($scope, $http) {
+app.controller('userController', function ($scope, $http, $location) {
     $scope.user = {};
     $scope.error;
     $scope.login = function (user) {
-        console.log(user.username + ' ' + user.password);
         $http.post('/api/users/login', JSON.stringify(user)).
             success(function(data, status, headers, config) {
-                console.log(data + ' success');
+                $location.path('/');
             }).
             error(function(data, status, headers, config) {
                 $scope.error = angular.fromJson(data);
-                console.log($scope.error.message + ' error');
+            });
+    }
+
+    $scope.register = function (user) {
+        $http.post('/api/users/register', JSON.stringify(user)).
+            success(function (data, status, headers, config) {
+                $location.path('/login');
+            }).
+            error(function (data, status, headers, config) {
+                $scope.error = angular.fromJson(data);
             });
     }
 });

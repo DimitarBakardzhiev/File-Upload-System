@@ -18,6 +18,9 @@ module.exports = function (app, passport) {
     app.get('/api/users/profile', controllers.usersController.profile)
 
     app.get('*', function (req, res) {
-        res.render('index');
+        res.render('index', {
+            year: new Date().getFullYear(),
+            user: req.user !== undefined ? req.user.username : null
+        });
     });
 }

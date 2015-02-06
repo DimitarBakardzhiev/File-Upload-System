@@ -36,8 +36,11 @@ html
          form.navbar-form.navbar-left
             input.form-control.col-lg-8(type='text', placeholder='Search')
          ul.nav.navbar-nav.navbar-right
-            li
-               a(href='#') Link
+            if !user
+                li
+                    a(href='/#/login') Login
+                li
+                    a(href='/#/register') Register
             li.dropdown
                a.dropdown-toggle(href='#', data-toggle='dropdown')
                   | Dropdown
@@ -55,7 +58,7 @@ html
 
    div(ng-view)
 
-   footer.text-center &copy; File Upload System 2014
+   footer.text-center &copy; File Upload System #{year}
 
    script(type="text/javascript" src="/libs/jquery.js")
    script(type="text/javascript" src="/libs/bootstrap.js")
