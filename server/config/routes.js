@@ -15,12 +15,12 @@ module.exports = function (app, passport) {
                 });
             }
         });
-    app.get('/api/users/profile', controllers.usersController.profile)
+    app.get('/api/users/profile', controllers.usersController.profile);
+    app.post('/api/users/changePassword', controllers.usersController.changePassword);
 
     app.get('*', function (req, res) {
         res.render('index', {
-            year: new Date().getFullYear(),
-            user: req.user !== undefined ? req.user.username : null
+            year: new Date().getFullYear()
         });
     });
 }

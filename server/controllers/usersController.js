@@ -67,7 +67,9 @@ module.exports = {
 
             req.logIn(user, function(err) {
                 if (err) { return next(err); }
-                return res.end();
+                return res.json({
+                    username: req.user.username
+                });
             });
         })(req, res, next);
     },
@@ -86,6 +88,36 @@ module.exports = {
         res.json({
             username: req.user.username,
             points: req.user.points
+        });
+    },
+    
+    changePassword: function (req, res) {
+        if (!req.user) {
+            res.statusCode = 401;
+            return res.end();
+        }
+
+        if (req.body.password.length < 5) {
+            res.statusCode = 400;
+            return res.json({
+                message: 'The password must be at least 6 characters!'
+            });
+        }
+
+        if (req.body.password !== req.body.confirmPassword) {
+            res.statusCode = 400;
+            return res.json({
+                message: "The given password and confirmed password don't match!"
+            });
+        }
+
+        var passwordHash = encryption.generateHashedPassword(req.user.salt, req.body.password);
+        User.findByIdAndUpdate(req.user._id, { passwordHash: passwordHash }, function (err, user) {
+            if (err) {
+                console.log(err);
+            }
+
+            res.end();
         });
     }
 }
