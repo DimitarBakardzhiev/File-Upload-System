@@ -6,6 +6,7 @@ var busboy = require('connect-busboy');
 var fs = require('fs');
 var env = process.env.NODE_ENV || 'development';
 var config = require('../config/config')[env];
+var path = require('path');
 
 module.exports = {
     upload: function (req, res, next) {
@@ -20,25 +21,32 @@ module.exports = {
             console.log("Uploading: " + filename);
 
             //Path where image will be uploaded
-            var filePath = config.rootPath + '/files/' + filename
-            fstream = fs.createWriteStream(filePath);
-            file.pipe(fstream);
-            fstream.on('close', function () {
-                console.log("Upload Finished of " + filename);
 
-                new File({
-                    url: filePath,
-                    dateOfUploading: new Date(),
-                    fileName: filename,
-                    isPrivate: false,   // todo
-                    uploaderId: req.user._id
-                }).save(function (err, file) {
-                        if (err) {
-                            console.log(err);
-                        }
+            var filePath = path.join(config.rootPath, 'files', req.user.username);
+            fs.exists(filePath, function (exists) {
+                if (!exists) {
+                    fs.mkdir(filePath);
+                }
 
-                        res.redirect('/');
-                    });
+                fstream = fs.createWriteStream(path.join(filePath, filename));
+                file.pipe(fstream);
+                fstream.on('close', function () {
+                    console.log("Upload Finished of " + filename);
+
+                    new File({
+                        url: filePath,
+                        dateOfUploading: new Date(),
+                        fileName: filename,
+                        isPrivate: false,   // todo
+                        uploaderId: req.user._id
+                    }).save(function (err, file) {
+                            if (err) {
+                                console.log(err);
+                            }
+
+                            res.redirect('/');
+                        });
+                });
             });
         });
     },
