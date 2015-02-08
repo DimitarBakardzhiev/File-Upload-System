@@ -17,6 +17,7 @@ module.exports = function (app, passport) {
         });
     app.get('/api/users/profile', controllers.usersController.profile);
     app.post('/api/users/changePassword', controllers.usersController.changePassword);
+    app.post('/api/files/upload', controllers.filesController.upload);
 
     app.get('*', function (req, res) {
         res.render('index', {

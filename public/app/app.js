@@ -15,7 +15,10 @@ app.config(function ($routeProvider) {
         when('/register', {
             templateUrl: '/app/partials/register.html',
             controller: 'userController'
-    })
+    }).
+        when('/upload', {
+            templateUrl: 'app/partials/upload.html'
+        })
     /*.otherwise({
         redirectTo: '/'
     });*/

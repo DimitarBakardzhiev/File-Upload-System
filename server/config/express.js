@@ -2,10 +2,12 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var flash = require('connect-flash');
+var busboy = require('connect-busboy');
 
 module.exports = function (app, rootDir, express, passport) {
     app.set('view engine', 'jade');
     app.set('views', rootDir + '/server/views');
+    app.use(busboy());
     app.use(cookieParser());
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({ extended: false }));
