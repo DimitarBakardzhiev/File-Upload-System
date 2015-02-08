@@ -1,7 +1,6 @@
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
-var flash = require('connect-flash');
 var busboy = require('connect-busboy');
 
 module.exports = function (app, config, express, passport) {
@@ -16,7 +15,6 @@ module.exports = function (app, config, express, passport) {
         saveUninitialized: true,
         resave: true
     }));
-    app.use(flash());
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(express.static(config.rootPath + '/public'));

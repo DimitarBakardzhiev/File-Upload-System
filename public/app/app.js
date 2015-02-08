@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute']);
+var app = angular.module('app', ['ngRoute', 'ngCookies']);
 
 app.config(function ($routeProvider) {
     $routeProvider.
@@ -17,7 +17,7 @@ app.config(function ($routeProvider) {
             controller: 'userController'
     }).
         when('/upload', {
-            templateUrl: 'app/partials/upload.html'
+            templateUrl: '/app/partials/upload.html'
         })
     /*.otherwise({
         redirectTo: '/'

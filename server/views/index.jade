@@ -35,13 +35,17 @@ html
                      a(href='#') One more separated link
          form.navbar-form.navbar-left
             input.form-control.col-lg-8(type='text', placeholder='Search')
-         ul.nav.navbar-nav.navbar-right
-            li
-                a(href='/#/login') Login
-            li
-                a(href='/#/register') Register
-            li
-                a(href='#' ng-controller="userController" ng-click="logout()") Logout
+         ul.nav.navbar-nav.navbar-right(ng-controller="userController")
+            if !currentUser
+                li
+                    a(href='/#/login') Login
+                li
+                    a(href='/#/register') Register
+            else
+                li
+                    a(href='#') #{currentUser}
+                li
+                    a(href='#' ng-click="logout()") Logout
             li.dropdown
                a.dropdown-toggle(href='#', data-toggle='dropdown')
                   | Dropdown

@@ -18,9 +18,14 @@ module.exports = {
         var fstream;
         req.pipe(req.busboy);
         req.busboy.on('file', function (fieldname, file, filename) {
-            console.log("Uploading: " + filename);
+            if (filename.length === 0) {
+                res.statusCode = 400;
+                res.json({
+                    message: 'No file selected!'
+                });
+            }
 
-            //Path where image will be uploaded
+            console.log("Uploading: " + filename);
 
             var filePath = path.join(config.rootPath, 'files', req.user.username);
             fs.exists(filePath, function (exists) {
@@ -79,6 +84,19 @@ module.exports = {
             }
 
             return res.end();
+        });
+    },
+    
+    download: function (req, res) {
+        var id = req.params.id;
+
+        File.findById(id, function (err, file) {
+            if (err) {
+                console.log(err);
+            }
+
+            var filePath = path.join(file.url, file.fileName);
+            res.download(filePath);
         });
     }
 }
