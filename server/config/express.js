@@ -4,9 +4,9 @@ var session = require('express-session');
 var flash = require('connect-flash');
 var busboy = require('connect-busboy');
 
-module.exports = function (app, rootDir, express, passport) {
+module.exports = function (app, config, express, passport) {
     app.set('view engine', 'jade');
-    app.set('views', rootDir + '/server/views');
+    app.set('views', config.rootPath + '/server/views');
     app.use(busboy());
     app.use(cookieParser());
     app.use(bodyParser.json());
@@ -19,5 +19,5 @@ module.exports = function (app, rootDir, express, passport) {
     app.use(flash());
     app.use(passport.initialize());
     app.use(passport.session());
-    app.use(express.static(rootDir + '/public'));
+    app.use(express.static(config.rootPath + '/public'));
 }
