@@ -21,12 +21,4 @@ app.controller('userController', function ($scope, $http, $location, $window) {
                 $scope.error = angular.fromJson(data);
             });
     }
-
-    $scope.logout = function () {
-        $http.get('/api/users/logout').
-            success(function (data, status, headers, config) {
-                $location.path('/');
-                $window.location.reload();
-            });
-    }
 });

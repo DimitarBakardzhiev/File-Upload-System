@@ -76,7 +76,7 @@ module.exports = {
     
     logout: function (req, res) {
         req.logout();
-        res.end();
+        res.redirect('/');
     },
     
     profile: function (req, res) {

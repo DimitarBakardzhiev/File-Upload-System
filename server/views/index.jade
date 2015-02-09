@@ -16,6 +16,9 @@ html
                a(href='#') Active
             li
                a(href='#') Link
+            if currentUser
+                li
+                    a(href="/#/upload") Upload
             li.dropdown
                a.dropdown-toggle(href='#', data-toggle='dropdown')
                   | Dropdown
@@ -45,7 +48,7 @@ html
                 li
                     a(href='#') #{currentUser}
                 li
-                    a(href='#' ng-click="logout()") Logout
+                    a(href='/api/users/logout') Logout
             li.dropdown
                a.dropdown-toggle(href='#', data-toggle='dropdown')
                   | Dropdown
@@ -69,5 +72,6 @@ html
    script(type="text/javascript" src="/libs/bootstrap.js")
    script(type="text/javascript" src="/libs/angular.js")
    script(type="text/javascript" src="/libs/angular-route.js")
+   script(type="text/javascript" src="/libs/angular-resource.js")
    script(type="text/javascript" src="/app/app.js")
    script(type="text/javascript" src="/app/controllers/userController.js")
