@@ -39,16 +39,16 @@ html
          form.navbar-form.navbar-left
             input.form-control.col-lg-8(type='text', placeholder='Search')
          ul.nav.navbar-nav.navbar-right(ng-controller="userController")
-            if !currentUser
-                li
-                    a(href='/#/login') Login
-                li
-                    a(href='/#/register') Register
-            else
-                li
-                    a(href='#') #{currentUser}
-                li
-                    a(href='/api/users/logout') Logout
+            li
+                a(href="#" ng-click="test()") test
+            li(ng-hide="!!currentUser")
+                a(href='/#/login') Login
+            li(ng-hide="!!currentUser")
+                a(href='/#/register') Register
+            li(ng-show="!!currentUser")
+                a(href='#') {{currentUser}}
+            li(ng-show="!!currentUser")
+                a(href='#' ng-click="logout()") Logout
             li.dropdown
                a.dropdown-toggle(href='#', data-toggle='dropdown')
                   | Dropdown
@@ -74,4 +74,5 @@ html
    script(type="text/javascript" src="/libs/angular-route.js")
    script(type="text/javascript" src="/libs/angular-resource.js")
    script(type="text/javascript" src="/app/app.js")
+   script(type="text/javascript" src="/app/services/auth.js")
    script(type="text/javascript" src="/app/controllers/userController.js")

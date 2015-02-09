@@ -1,5 +1,12 @@
-app.controller('userController', function ($scope, $http, $location, $window) {
+app.controller('userController', function ($scope, $http, $location, $window, auth) {
     $scope.error;
+    auth.then(function (data) {
+        $scope.currentUser = data.username;
+    });
+
+    $scope.test = function () {
+        console.log($scope.currentUser);
+    }
 
     $scope.login = function (user) {
         $http.post('/api/users/login', JSON.stringify(user)).
@@ -20,5 +27,12 @@ app.controller('userController', function ($scope, $http, $location, $window) {
             error(function (data, status, headers, config) {
                 $scope.error = angular.fromJson(data);
             });
+    }
+
+    $scope.logout = function () {
+        $http.get('/api/users/logout').success(function () {
+            $scope.currentUser = undefined;
+            $location.path('/');
+        })
     }
 });
