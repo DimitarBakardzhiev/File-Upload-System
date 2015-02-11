@@ -1,12 +1,7 @@
-app.controller('userController', function ($scope, $http, $location, $window, auth) {
-    $scope.error;
+app.controller('userController', function ($scope, $http, $location, $window, auth, $q) {
     auth.then(function (data) {
         $scope.currentUser = data.username;
     });
-
-    $scope.test = function () {
-        console.log($scope.currentUser);
-    }
 
     $scope.login = function (user) {
         $http.post('/api/users/login', JSON.stringify(user)).

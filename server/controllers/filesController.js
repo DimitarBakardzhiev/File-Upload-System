@@ -27,30 +27,39 @@ module.exports = {
 
             console.log("Uploading: " + filename);
 
-            var filePath = path.join(config.rootPath, 'files', req.user.username);
+            // create 'files' folder if it doesn't exist
+            var filePath = path.join(config.rootPath, 'files');
             fs.exists(filePath, function (exists) {
                 if (!exists) {
                     fs.mkdir(filePath);
                 }
 
-                fstream = fs.createWriteStream(path.join(filePath, filename));
-                file.pipe(fstream);
-                fstream.on('close', function () {
-                    console.log("Upload Finished of " + filename);
+                // create '<username>' folder if it doesn't exist
+                filePath = path.join(config.rootPath, 'files', req.user.username);
+                fs.exists(filePath, function (exists) {
+                    if (!exists) {
+                        fs.mkdir(filePath);
+                    }
 
-                    new File({
-                        url: filePath,
-                        dateOfUploading: new Date(),
-                        fileName: filename,
-                        isPrivate: false,   // todo
-                        uploaderId: req.user._id
-                    }).save(function (err, file) {
-                            if (err) {
-                                console.log(err);
-                            }
+                    fstream = fs.createWriteStream(path.join(filePath, filename));
+                    file.pipe(fstream);
+                    fstream.on('close', function () {
+                        console.log("Upload Finished of " + filename);
 
-                            res.redirect('/');
-                        });
+                        new File({
+                            url: filePath,
+                            dateOfUploading: new Date(),
+                            fileName: filename,
+                            isPrivate: false,   // todo
+                            uploaderId: req.user._id
+                        }).save(function (err, file) {
+                                if (err) {
+                                    console.log(err);
+                                }
+
+                                res.redirect('/');
+                            });
+                    });
                 });
             });
         });

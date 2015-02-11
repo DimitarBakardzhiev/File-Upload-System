@@ -39,8 +39,6 @@ html
          form.navbar-form.navbar-left
             input.form-control.col-lg-8(type='text', placeholder='Search')
          ul.nav.navbar-nav.navbar-right(ng-controller="userController")
-            li
-                a(href="#" ng-click="test()") test
             li(ng-hide="!!currentUser")
                 a(href='/#/login') Login
             li(ng-hide="!!currentUser")
@@ -73,6 +71,7 @@ html
    script(type="text/javascript" src="/libs/angular.js")
    script(type="text/javascript" src="/libs/angular-route.js")
    script(type="text/javascript" src="/libs/angular-resource.js")
+   script(type="text/javascript" src="/libs/angular-cookies.js")
    script(type="text/javascript" src="/app/app.js")
    script(type="text/javascript" src="/app/services/auth.js")
    script(type="text/javascript" src="/app/controllers/userController.js")
