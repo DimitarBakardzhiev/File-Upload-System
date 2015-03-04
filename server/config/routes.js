@@ -23,9 +23,6 @@ module.exports = function (app, passport) {
     app.get('/api/files/:id', controllers.filesController.download);
 
     app.get('*', function (req, res) {
-        res.render('index', {
-            year: new Date().getFullYear(),
-            currentUser: req.user == null ? '': req.user.username
-        });
+        res.render('index');
     });
 }

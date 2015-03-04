@@ -2,7 +2,7 @@ html
    head
       title File Upload System
       link(rel="styleSheet" href="/libs/bootstrap.css")
-   body(ng-app="app")
+   body(ng-app="app" ng-controller="pageController")
    .navbar.navbar-inverse
       .navbar-header
          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-inverse-collapse')
@@ -38,14 +38,14 @@ html
                      a(href='#') One more separated link
          form.navbar-form.navbar-left
             input.form-control.col-lg-8(type='text', placeholder='Search')
-         ul.nav.navbar-nav.navbar-right(ng-controller="userController")
+         ul.nav.navbar-nav.navbar-right
             li(ng-hide="!!currentUser")
                 a(href='/#/login') Login
             li(ng-hide="!!currentUser")
                 a(href='/#/register') Register
             li(ng-show="!!currentUser")
                 a(href='#') {{currentUser}}
-            li(ng-show="!!currentUser")
+            li(ng-show="!!currentUser" ng-controller="userController")
                 a(href='#' ng-click="logout()") Logout
             li.dropdown
                a.dropdown-toggle(href='#', data-toggle='dropdown')
@@ -64,7 +64,7 @@ html
 
    div(ng-view)
 
-   footer.text-center &copy; File Upload System #{year}
+   footer.text-center &copy; File Upload System {{year}}
 
    script(type="text/javascript" src="/libs/jquery.js")
    script(type="text/javascript" src="/libs/bootstrap.js")
@@ -73,5 +73,6 @@ html
    script(type="text/javascript" src="/libs/angular-resource.js")
    script(type="text/javascript" src="/libs/angular-cookies.js")
    script(type="text/javascript" src="/app/app.js")
-   script(type="text/javascript" src="/app/services/auth.js")
+   script(type="text/javascript" src="/app/services/currentUser.js")
+   script(type="text/javascript" src="/app/controllers/pageController.js")
    script(type="text/javascript" src="/app/controllers/userController.js")

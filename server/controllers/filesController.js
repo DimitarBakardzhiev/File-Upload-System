@@ -105,7 +105,7 @@ module.exports = {
             }
 
             var filePath = path.join(file.url, file.fileName);
-            res.download(filePath);
+            return res.download(filePath);
         });
     }
 }
