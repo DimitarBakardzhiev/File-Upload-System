@@ -39,28 +39,25 @@ html
          form.navbar-form.navbar-left
             input.form-control.col-lg-8(type='text', placeholder='Search')
          ul.nav.navbar-nav.navbar-right
-            li(ng-hide="!!currentUser")
+            li(ng-hide="!!currentUser.getUser()")
                 a(href='/#/login') Login
-            li(ng-hide="!!currentUser")
+            li(ng-hide="!!currentUser.getUser()")
                 a(href='/#/register') Register
-            li(ng-show="!!currentUser")
-                a(href='#') {{currentUser}}
-            li(ng-show="!!currentUser" ng-controller="userController")
+            li.dropdown(ng-show="!!currentUser.getUser()")
+                a.dropdown-toggle(href='#' data-toggle='dropdown') {{currentUser.getUser()}}
+                    b.caret
+                ul.dropdown-menu
+                    li
+                        a(href='#/upload') Upload
+                    li
+                        a(href='#') Another action
+                    li
+                        a(href='#') Something else here
+                    li.divider
+                    li
+                        a(href='#') Separated link
+            li(ng-show="!!currentUser.getUser()" ng-controller="userController")
                 a(href='#' ng-click="logout()") Logout
-            li.dropdown
-               a.dropdown-toggle(href='#', data-toggle='dropdown')
-                  | Dropdown
-                  b.caret
-               ul.dropdown-menu
-                  li
-                     a(href='#') Action
-                  li
-                     a(href='#') Another action
-                  li
-                     a(href='#') Something else here
-                  li.divider
-                  li
-                     a(href='#') Separated link
 
    div(ng-view)
 
