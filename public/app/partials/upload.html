@@ -1,6 +1,21 @@
-<form method='post' action='api/files/upload' enctype="multipart/form-data">
-    <input type='file' name='file'>
-    <input type="checkbox" name="isPrivate" id="isPrivate">
+<header>
+    <style>
+        .button {
+            -moz-appearance: button;
+            /* Firefox */
+            -webkit-appearance: button;
+            /* Safari and Chrome */
+            padding: 10px;
+            margin: 10px;
+            width: 70px;
+        }
+    </style>
+</header>
+<div ng-controller="filesController">
+    <div class="button" ng-file-select ng-file-change="upload($files)">Upload on file change</div>
     <label for="isPrivate">Private file</label>
-    <input type='submit'>
-</form>
+    <input type="checkbox" ng-model="isPrivate" id="isPrivate">
+    <div class="progress" ng-if="progressBarLength > 0 && progressBarLength < 100">
+        <div class="progress-bar" style="width: {{progressBarLength}}%;"></div>
+    </div>
+</div>

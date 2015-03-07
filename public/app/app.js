@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ngRoute', 'ngResource', 'ngCookies']);
+var app = angular.module('app', ['ngRoute', 'ngResource', 'angularFileUpload']);
 
 app.config(function ($routeProvider) {
     $routeProvider.
@@ -17,7 +17,8 @@ app.config(function ($routeProvider) {
             controller: 'userController'
     }).
         when('/upload', {
-            templateUrl: '/app/partials/upload.html'
+            templateUrl: '/app/partials/upload.html',
+            controller: 'filesController'
         })
     /*.otherwise({
         redirectTo: '/'

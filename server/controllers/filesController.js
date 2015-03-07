@@ -15,6 +15,7 @@ module.exports = {
             return res.json();
         }
 
+        var isPrivate = undefined;
         var fstream;
         req.pipe(req.busboy);
         req.busboy.on('file', function (fieldname, file, filename) {
@@ -50,7 +51,7 @@ module.exports = {
                             url: filePath,
                             dateOfUploading: new Date(),
                             fileName: filename,
-                            isPrivate: false,   // todo
+                            isPrivate: isPrivate,
                             uploaderId: req.user._id
                         }).save(function (err, file) {
                                 if (err) {
@@ -62,6 +63,11 @@ module.exports = {
                     });
                 });
             });
+        });
+
+        req.busboy.on('field', function (fieldName, value) {
+            console.log(fieldName + ": " + value);
+            isPrivate = value;
         });
     },
 
