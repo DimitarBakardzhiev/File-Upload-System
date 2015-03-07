@@ -1,7 +1,7 @@
 /**
  * Created by Dimitar on 9.2.2015 г..
  */
-app.controller('filesController', function ($scope, $http, $location, $upload) {
+app.controller('filesController', function ($scope, $http, $upload) {
     $scope.isPrivate = false;
 
     $scope.upload = function (files) {
@@ -22,4 +22,9 @@ app.controller('filesController', function ($scope, $http, $location, $upload) {
             }
         }
     };
+
+    $http.get('/api/files/getAll')
+        .success(function(data, status, headers, config) {
+            $scope.allFiles = data;
+    });
 });

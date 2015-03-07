@@ -44,13 +44,13 @@ html
             li(ng-hide="!!currentUser.getUser()")
                 a(href='/#/register') Register
             li.dropdown(ng-show="!!currentUser.getUser()")
-                a.dropdown-toggle(href='#' data-toggle='dropdown') {{currentUser.getUser()}}
+                a.dropdown-toggle( data-toggle='dropdown') {{currentUser.getUser()}}
                     b.caret
                 ul.dropdown-menu
                     li
                         a(href='#/upload') Upload
                     li
-                        a(href='#') Another action
+                        a(href='#/allFiles') All Files
                     li
                         a(href='#') Something else here
                     li.divider

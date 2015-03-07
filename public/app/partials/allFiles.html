@@ -1,0 +1,21 @@
+<div ng-controller="filesController">
+    <h2 ng-hide="allFiles.length > 0">No Files uploaded!</h2>
+    <table class="table table-striped table-hover " ng-show="allFiles.length > 0">
+        <thead>
+        <tr>
+            <th>File Name</th>
+            <th>Upload Date</th>
+            <th>Private</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="file in allFiles" class="{{file.isPrivate == true ? 'success': 'danger'}}">
+            <td>
+                <a href="/api/files/{{file._id}}">{{file.fileName}}</a>
+            </td>
+            <td>{{file.dateOfUploading}}</td>
+            <td>{{file.isPrivate == true ? "Yes": "No"}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

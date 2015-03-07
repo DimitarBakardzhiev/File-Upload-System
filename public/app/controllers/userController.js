@@ -1,8 +1,7 @@
-app.controller('userController', function ($scope, $http, $location, $window, $rootScope, currentUser) {
+app.controller('userController', function ($scope, $http, $location, $rootScope, currentUser) {
     $scope.login = function (user) {
         $http.post('/api/users/login', JSON.stringify(user)).
             success(function(data, status, headers, config) {
-                //$rootScope.currentUser = angular.copy(data.username);
                 currentUser.setUser(data.username);
                 $location.path('/');
             }).
@@ -23,7 +22,6 @@ app.controller('userController', function ($scope, $http, $location, $window, $r
 
     $scope.logout = function () {
         $http.get('/api/users/logout').success(function () {
-            //$rootScope.currentUser = undefined;
             currentUser.remove();
             $location.path('/');
         }).error(function (err) {

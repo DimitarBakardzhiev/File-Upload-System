@@ -19,6 +19,10 @@ app.config(function ($routeProvider) {
         when('/upload', {
             templateUrl: '/app/partials/upload.html',
             controller: 'filesController'
+    }).
+        when('/allFiles', {
+            templateUrl: '/app/partials/allFiles.html',
+            controller: 'filesController'
         })
     /*.otherwise({
         redirectTo: '/'
