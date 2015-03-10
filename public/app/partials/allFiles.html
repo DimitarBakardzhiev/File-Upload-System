@@ -6,6 +6,7 @@
             <th>File Name</th>
             <th>Upload Date</th>
             <th>Private</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -15,6 +16,9 @@
             </td>
             <td>{{file.dateOfUploading}}</td>
             <td>{{file.isPrivate == true ? "Yes": "No"}}</td>
+            <td>
+                <button ng-click="delete(file._id)" class="btn btn-danger btn-xs">Delete</button>
+            </td>
         </tr>
         </tbody>
     </table>

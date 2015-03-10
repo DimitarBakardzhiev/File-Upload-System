@@ -1,7 +1,7 @@
 /**
  * Created by Dimitar on 9.2.2015 г..
  */
-app.controller('filesController', function ($scope, $http, $upload) {
+app.controller('filesController', function ($scope, $http, $upload, $location) {
     $scope.isPrivate = false;
 
     $scope.upload = function (files) {
@@ -15,9 +15,9 @@ app.controller('filesController', function ($scope, $http, $upload) {
                 }).progress(function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     $scope.progressBarLength = progressPercentage;
-                    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+                    //console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
                 }).success(function (data, status, headers, config) {
-                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
+                    //console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
                 });
             }
         }
@@ -27,4 +27,12 @@ app.controller('filesController', function ($scope, $http, $upload) {
         .success(function(data, status, headers, config) {
             $scope.allFiles = data;
     });
+    
+    $scope.delete = function (id) {
+        $http.get('/api/files/delete/' + id)
+            .success(function () {
+                console.log('deleted');
+                $location.url('#/allFiles');
+            });
+    }
 });

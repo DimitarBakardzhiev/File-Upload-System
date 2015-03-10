@@ -21,6 +21,7 @@ module.exports = function (app, passport) {
     app.post('/api/files/upload', controllers.filesController.upload);
     app.get('/api/files/getAll', controllers.filesController.allUserFiles);
     app.get('/api/files/:id', controllers.filesController.download);
+    app.get('/api/files/delete/:id', controllers.filesController.delete);
 
     app.get('*', function (req, res) {
         res.render('index');

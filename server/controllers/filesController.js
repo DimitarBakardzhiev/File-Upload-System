@@ -12,7 +12,7 @@ module.exports = {
     upload: function (req, res, next) {
         if (!req.user) {
             res.statusCode = 401;
-            return res.json();
+            return res.end();
         }
 
         var isPrivate = undefined;
@@ -93,7 +93,10 @@ module.exports = {
         }
 
         var id = req.params.id;
-        File.findByIdAndUpdate(id, { fileName: req.body.fileName }, function (err, file) {
+        File.findByIdAndUpdate(id, {
+            fileName: req.body.fileName,
+            isPrivate: req.body.isPrivate
+        }, function (err, file) {
             if (err) {
                 console.log(err);
             }
@@ -103,6 +106,11 @@ module.exports = {
     },
     
     download: function (req, res) {
+        if (!req.user) {
+            res.statusCode = 401;
+            return res.end();
+        }
+
         var id = req.params.id;
 
         File.findById(id, function (err, file) {
@@ -112,6 +120,33 @@ module.exports = {
 
             var filePath = path.join(file.url, file.fileName);
             return res.download(filePath);
+        });
+    },
+
+    delete: function (req, res) {
+        if (!req.user) {
+            res.statusCode = 401;
+            return res.end();
+        }
+
+        var id = req.params.id;
+        console.log(id);
+
+        File.findByIdAndRemove(id, function (err, file) {
+            if (err) {
+                console.log(err);
+            }
+
+            var filePath = path.join(file.url, file.fileName);
+
+            fs.unlink(filePath, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+
+                console.log('File ' + filePath + ' removed!');
+                res.end();
+            })
         });
     }
 }
