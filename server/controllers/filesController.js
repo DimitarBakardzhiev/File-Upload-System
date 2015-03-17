@@ -130,7 +130,6 @@ module.exports = {
         }
 
         var id = req.params.id;
-        console.log(id);
 
         File.findByIdAndRemove(id, function (err, file) {
             if (err) {
@@ -144,7 +143,6 @@ module.exports = {
                     console.log(err);
                 }
 
-                console.log('File ' + filePath + ' removed!');
                 res.end();
             })
         });
